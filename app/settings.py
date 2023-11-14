@@ -125,3 +125,6 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 POKE_API_URL = "https://pokeapi.co/api/v2/pokemon/"
+
+POKE_API_DEFAULT_OFFEST = 20
+POKE_API_DEFAULT_LIMIT = 20
