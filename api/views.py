@@ -7,7 +7,7 @@ from django.conf import settings
 class PokemonAPIView(APIView):
     def get(self, request):
         limit_query = request.query_params.get("limit")
-        offset_query = request.query_params.get("limit")
+        offset_query = request.query_params.get("offset")
         search_query = request.query_params.get("search")
 
         limit = limit_query if limit_query else settings.POKE_API_DEFAULT_LIMIT
@@ -21,11 +21,11 @@ class PokemonAPIView(APIView):
             response = requests.get(url_search).json()
         else:
             type_request = 1
-            params = {
+            query_params = {
                 "limit": limit,
-                "offeset": offset,
+                "offset": offset,
             }
-            response = requests.get(settings.POKE_API_URL, params=params).json()
+            response = requests.get(settings.POKE_API_URL, params=query_params).json()
 
         pokemon_result_data = self.return_data_pokemon(response, type_request)
         return Response(pokemon_result_data)
@@ -50,10 +50,10 @@ class PokemonAPIView(APIView):
                 "name": response["species"]["name"],
                 "sprite": response["sprites"]["front_default"],
                 "num_abilities": len(response["abilities"]),
-                "main_abilitie": response_pokemon["abilities"][0]["ability"]["name"],
+                "main_abilitie": response["abilities"][0]["ability"]["name"],
                 "url": response["species"]["url"],
                 "height": response["height"],
-                "width": response["width"],
+                "weight": response["weight"],
             }
             result_pokemon.append(data_pokemon)
         else:
