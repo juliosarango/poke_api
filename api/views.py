@@ -83,3 +83,10 @@ class PokemonAPIView(APIView):
         }
 
         return pokemon_result_data
+
+
+class PokemonDetail(APIView):
+    def get(self, request, **kwargs):
+        pokemon_id = self.kwargs["id"]
+        response = requests.get(f"{settings.POKE_API_URL}{pokemon_id}").json()
+        return Response(response)
